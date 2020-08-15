@@ -14,6 +14,34 @@ const config = {
   measurementId: 'G-0ER81RNQW9',
 };
 
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  // userRef disini adalah DocumentReference kenapa document ya karena kita disini mengunakan doc jika collection maka jadi collectionReference
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  //snapshot disini adalah snapshotObject
+  const snapshot = await userRef.get();
+  //akan masuk ke if jika user belum pernah sign sebelumnya
+  if (!snapshot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log('terdapat error ketika membuat user', error.message);
+    }
+  }
+
+  return userRef;
+};
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
