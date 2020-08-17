@@ -4,6 +4,8 @@ import './header.style.scss';
 import { ReactComponent as Logo } from './../../assets/crown.svg';
 import { auth } from './../../firebase/firebase.utils';
 
+import { connect } from 'react-redux';
+
 function Header({ currentUser }) {
   return (
     <div className="header">
@@ -31,4 +33,8 @@ function Header({ currentUser }) {
   );
 }
 
-export default Header;
+const mapStateToProps = (stateDariRootReducer) => ({
+  currentUser: stateDariRootReducer.user.currentUser,
+});
+
+export default connect(mapStateToProps)(Header);
