@@ -7,7 +7,9 @@ import { auth } from './../../firebase/firebase.utils';
 import { connect } from 'react-redux';
 import CartIcon from './../cart-icon/cart-icon.component';
 import CartDropdown from './../cart-dropdown/cart-dropdown.component';
-import {} from './../../';
+import { selectCurrentUser } from './../../redux/user.reducer/user.selectors';
+import { selectCartHidden } from './../../redux/cart.reducer/cart.selectors';
+import { createStructuredSelector } from 'reselect';
 
 function Header({ currentUser, hidden }) {
   return (
@@ -38,9 +40,19 @@ function Header({ currentUser, hidden }) {
   );
 }
 
-const mapStateToProps = (stateDariRootReducer) => ({
-  currentUser: stateDariRootReducer.user.currentUser,
-  hidden: stateDariRootReducer.cart.hidden,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCartHidden,
 });
+
+/*
+    dua kode ini sama saja bedanya dengan menggunakan createStructuredSelector bisa
+    lebih dinamis lagi 
+*/
+
+// const mapStateToProps = (stateDariRootReducer) => ({
+//   currentUser: selectCurrentUser(stateDariRootReducer),
+//   hidden: selectCartHidden(stateDariRootReducer),
+// });
 
 export default connect(mapStateToProps)(Header);
