@@ -12,6 +12,10 @@ export const selectCartItemsCount = createSelector([selectCartItems], (cartItems
   return cartItems.reduce((acc, cartItem) => acc + cartItem.quantity, 0);
 });
 
+export const selectCartTotal = createSelector([selectCartItems], (cartItems) => {
+  return cartItems.reduce((acc, cartItem) => acc + cartItem.quantity * cartItem.price, 0);
+});
+
 /* 
     i dont know whats goin on heree but yang perlu dikasih tau adalah
     selector untuk nge-get sesuatu dari state?? agar performanya lebih mantap
