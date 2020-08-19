@@ -8,7 +8,6 @@ import { selectCartItems } from './../../redux/cart.reducer/cart.selectors.js';
 import { toggleCartHidden } from './../../redux/cart.reducer/cart.action';
 
 const CartDropdown = (props) => {
-  console.log(props);
   // props.disptach akan terpanggil secara default jika kita tidak memasukkan argumen kedua di connect()
   return (
     <div className="cart-dropdown">
