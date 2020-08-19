@@ -28,5 +28,4 @@ export const selectCollection = (urlParameter) => {
    COLLECTIONS_ID_MAP['sneakers'] = 2
    jadi nanti collection.id akan dibandingkan dengan angka stringnya
    lalu .find akan mengembalikan objek dari hasil perbandingannya
-
  */
