@@ -3,6 +3,8 @@ import { combineReducers } from 'redux';
 import userReducer from './user.reducer/user.reducer';
 import cartReducers from './cart.reducer/cart.reducers';
 import directoryReducer from './directory.reducer/directory.reducer';
+import shopReducer from './shop.reducer/shop.reducer';
+
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 // storage disini itu seperti localStorage tapi versi redux-persist
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   cart: cartReducers,
   directory: directoryReducer,
+  shop: shopReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
