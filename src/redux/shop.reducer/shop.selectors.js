@@ -29,6 +29,32 @@ export const getCollections = createSelector([selectShop], (shop) => shop.collec
    lalu .find akan mengembalikan objek dari hasil perbandingannya
  */
 
+export const selectCollectionForPreview = createSelector([getCollections], (collection) => {
+  /*
+  console.log(Object.keys(collection));
+   - hasil : 
+  ["hats", "sneakers", "jackets", "womens", "mens"]
+  array disini akan di map ^
+  agar mereturn array, dan agar bisa dipakai oleh collections-overview
+
+  collection[hats]
+  collection[sneakers]
+  
+   console.log(Object.keys(collection).map((key) => collection[key]));
+   - hasil :
+  (5) [{…}, {…}, {…}, {…}, {…}]
+  0: {id: 1, title: "Hats", routeName: "/shop/hats", items: Array(9)}
+  1: {id: 2, title: "Sneakers", routeName: "sneakers", items: Array(8)}
+  2: {id: 3, title: "Jackets", routeName: "jackets", items: Array(5)}
+  3: {id: 4, title: "Womens", routeName: "womens", items: Array(7)}
+  4: {id: 5, title: "Mens", routeName: "mens", items: Array(6)}
+
+  melakukan cara ini agar nanti bisa di map di collections-overview, karena 
+  di data shopnya adalah object bukan array, bisa diakali dengan cara ini
+  */
+  return Object.keys(collection).map((key) => collection[key]);
+});
+
 export const selectCollection = (urlParameter) => {
   return createSelector([getCollections], (collections) => collections[urlParameter]);
 };
