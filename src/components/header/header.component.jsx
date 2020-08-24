@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogoContainer, HeaderContainer, Option, OptionDiv, Options } from './header.style';
+import { LogoContainer, HeaderContainer, Option, Options } from './header.style';
 
 import { ReactComponent as Logo } from './../../assets/crown.svg';
 import { auth } from './../../firebase/firebase.utils';
@@ -21,7 +21,9 @@ function Header({ currentUser, hidden }) {
         <Option to="/shop">SHOP</Option>
         <Option to="/contact">CONTACT</Option>
         {currentUser ? (
-          <OptionDiv onClick={() => auth.signOut()}>SIGN OUT</OptionDiv>
+          <Option as="div" onClick={() => auth.signOut()}>
+            SIGN OUT
+          </Option>
         ) : (
           <Option to="/signIn">SIGN IN</Option>
         )}
