@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './header.style.scss';
+import { LogoContainer, HeaderContainer, Option, OptionDiv, Options } from './header.style';
+
 import { ReactComponent as Logo } from './../../assets/crown.svg';
 import { auth } from './../../firebase/firebase.utils';
 
@@ -13,30 +13,22 @@ import { createStructuredSelector } from 'reselect';
 
 function Header({ currentUser, hidden }) {
   return (
-    <div className="header">
-      <Link className="logo-container" to="/">
-        <Logo className="logo" />
-      </Link>
-      <div className="options">
-        <Link className="option" to="/shop">
-          SHOP
-        </Link>
-        <Link className="option" to="/contact">
-          CONTACT
-        </Link>
+    <HeaderContainer>
+      <LogoContainer to="/">
+        <Logo />
+      </LogoContainer>
+      <Options>
+        <Option to="/shop">SHOP</Option>
+        <Option to="/contact">CONTACT</Option>
         {currentUser ? (
-          <div className="option" onClick={() => auth.signOut()}>
-            SIGN OUT
-          </div>
+          <OptionDiv onClick={() => auth.signOut()}>SIGN OUT</OptionDiv>
         ) : (
-          <Link className="option" to="/signIn">
-            SIGN IN
-          </Link>
+          <Option to="/signIn">SIGN IN</Option>
         )}
         <CartIcon />
-      </div>
+      </Options>
       {hidden ? null : <CartDropdown />}
-    </div>
+    </HeaderContainer>
   );
 }
 
