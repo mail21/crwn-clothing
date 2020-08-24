@@ -4,18 +4,22 @@ import { selectCollection } from '../../redux/shop.reducer/shop.selectors';
 
 import CollectionItem from '../../components/collection-item/collection-item.component';
 
-import './collection.styles.scss';
+import {
+  CollectionPageContainer,
+  CollectionTitle,
+  CollectionItemsContainer,
+} from './collection.styles';
 
 const CollectionPage = ({ match, collection }) => {
   return (
-    <div className="collection-page">
-      <h2 className="title">{collection.title}</h2>
-      <div className="items">
+    <CollectionPageContainer>
+      <CollectionTitle>{collection.title}</CollectionTitle>
+      <CollectionItemsContainer>
         {collection.items.map((item) => (
           <CollectionItem key={item.id} item={item} />
         ))}
-      </div>
-    </div>
+      </CollectionItemsContainer>
+    </CollectionPageContainer>
   );
 };
 //ownProps adalah props custom sendiri dari kita karena disini kita punya match,history
