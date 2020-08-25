@@ -44,6 +44,28 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 firebase.initializeApp(config);
 
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  /**
+   * batch gunanya untuk mengroup call/permintaan/request ke firestore,karena kita
+   * tidak mau untuk melakukan request tiap kali di loop maka dari itu ditaruh
+   * dibatch.set, setelah itu baru dicommit
+   */
+  const batch = firestore.batch();
+  objectsToAdd.forEach((obj) => {
+    /*
+      Membuat document baru pada firebase jika tidak ada argumen maka nanti akan
+      diberi unique ID otomatis dari firebase, tapi jika diisi nama documentnya
+      adalah nama yang ada di argumen, cth: collectionRef.doc("koleksi") nama doc
+      di firebase adalah "koleksi" 
+    */
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  return await batch.commit();
+};
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
