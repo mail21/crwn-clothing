@@ -67,7 +67,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 };
 
 export const convertCollectionsSnapshotToMap = (collections) => {
-  const transformedCollections = collections.docs.map((doc) => {
+  const getCollectionObjectArray = collections.docs.map((doc) => {
     const { title, items } = doc.data();
     return {
       routeName: encodeURI(title.toLowerCase()),
@@ -76,6 +76,21 @@ export const convertCollectionsSnapshotToMap = (collections) => {
       items,
     };
   });
+  const transformedCollections = getCollectionObjectArray.reduce((accumulator, collection) => {
+    // console.log(accumulator); -> objek yang kosong
+    // console.log(collection); -> koleksi obj tiap diloop
+    accumulator[collection.title.toLowerCase()] = collection;
+    /*
+        console.log(accumulator);
+        {mens: {…}}
+        {mens: {…}, jackets: {…}}
+        {mens: {…}, jackets: {…}, sneakers: {…}}
+        {mens: {…}, jackets: {…}, sneakers: {…}, womens: {…}}
+        {mens: {…}, jackets: {…}, sneakers: {…}, womens: {…}, hats: {…}}
+        {mens: {…}, jackets: {…}, sneakers: {…}, womens: {…}, hats: {…}}
+    */
+    return accumulator;
+  }, {});
 
   return transformedCollections;
 };

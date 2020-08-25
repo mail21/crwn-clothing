@@ -5,7 +5,6 @@ import { selectCollectionForPreview } from './../../redux/shop.reducer/shop.sele
 import CollectionPreview from './../../components/collection-preview/collection-preview.component';
 
 export const CollectionsOverview = ({ collections }) => {
-  console.log(collections);
   return (
     <CollectionsOverviewContainer>
       {collections.map(({ id, ...otherProps }) => (
@@ -16,7 +15,7 @@ export const CollectionsOverview = ({ collections }) => {
 };
 
 const mapStateToProps = (state) => ({
-  // collections: selectCollectionForPreview(state),
+  collections: selectCollectionForPreview(state),
 });
 
 export default connect(mapStateToProps)(CollectionsOverview);
