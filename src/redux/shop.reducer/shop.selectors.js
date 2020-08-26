@@ -52,11 +52,13 @@ export const selectCollectionForPreview = createSelector([getCollections], (coll
   melakukan cara ini agar nanti bisa di map di collections-overview, karena 
   di data shopnya adalah object bukan array, bisa diakali dengan cara ini
   */
-  return Object.keys(collection).map((key) => collection[key]);
+  return collection ? Object.keys(collection).map((key) => collection[key]) : [];
 });
 
 export const selectCollection = (urlParameter) => {
-  return createSelector([getCollections], (collections) => collections[urlParameter]);
+  return createSelector([getCollections], (collections) =>
+    collections ? collections[urlParameter] : null
+  );
 };
 
 /*
