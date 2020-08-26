@@ -60,7 +60,6 @@ export const selectCollection = (urlParameter) => {
     collections ? collections[urlParameter] : null
   );
 };
-
 /*
   karena data dari shop_data sudah di normalisasi dan datanya sudah bukan array lagi 
   melainkan objek jadinya kita hanya memanggil memberi keynya saja
@@ -69,3 +68,18 @@ export const selectCollection = (urlParameter) => {
   jadinya akan mereturn objek sneakers 
   
 */
+
+export const selectIsFetching = createSelector([selectShop], (shop) => shop.isFetching);
+
+export const selectIsCollectionsLoaded = createSelector(
+  [selectShop],
+  (shop) => !!shop.collections
+);
+
+/**
+ * selectIsCollectionsLoaded is it essentially just determines and returns a boolean
+ * value of whether or not our collection is null or not.
+ *
+ * !! -> mengecek sebuah value apakah false atau true
+ * sama aja kayak menggunakan Boolean()
+ */

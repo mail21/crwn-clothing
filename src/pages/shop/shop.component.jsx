@@ -6,53 +6,37 @@ import WithSpinner from './../../components/with-spinner/with-spinner.component'
 
 import { connect } from 'react-redux';
 
-import { updateShopDataAction } from './../../redux/shop.reducer/shop.action';
-import { firestore, convertCollectionsSnapshotToMap } from './../../firebase/firebase.utils';
+import { fetchCollectionsStartAsync } from './../../redux/shop.reducer/shop.action';
+import {
+  selectIsFetching,
+  selectIsCollectionsLoaded,
+} from './../../redux/shop.reducer/shop.selectors';
 
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 class ShopPage extends React.Component {
-  state = {
-    loading: true,
-  };
-
   componentDidMount() {
-    const collectionRef = firestore.collection('collections');
-
-    // collectionRef.onSnapshot(async (snapshot) => {
-    //   const collectionSnapshot = await convertCollectionsSnapshotToMap(snapshot);
-    //   this.props.updateShopDataAction(collectionSnapshot);
-    //   this.setState({ loading: false });
-    // });
-    /**
-     * Bedanya get dan onSnapshot adalah get menggunakan pattern promise
-     * jika pakai onSnapshot yang mengikuti pattern observer onSnapshot
-     * akan melakukan live update jika misal di firestore ada perubahan
-     * onSnaphot akan langsung jalan, sementara jika menggunakan
-     * promise pattern kita hanya mendapat datanya hanaya ketika
-     * component ini mount
-     */
-    collectionRef.get().then((snapshot) => {
-      const collectionSnapshot = convertCollectionsSnapshotToMap(snapshot);
-      this.props.updateShopDataAction(collectionSnapshot);
-      this.setState({ loading: false });
-    });
+    const { fetchCollectionsStartAsync } = this.props;
+    fetchCollectionsStartAsync();
   }
 
   render() {
-    const { match } = this.props;
-    const { loading } = this.state;
+    const { match, isFetching, isCollectionsLoaded } = this.props;
     return (
       <div className="shop-page">
         <Route
           exact
           path={`${match.path}`}
-          render={(props) => <CollectionsOverviewWithSpinner isLoading={loading} {...props} />}
+          render={(props) => (
+            <CollectionsOverviewWithSpinner isLoading={isFetching} {...props} />
+          )}
         />
         <Route
           path={`${match.path}/:collectionId`}
-          render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props} />}
+          render={(props) => (
+            <CollectionPageWithSpinner isLoading={!isCollectionsLoaded} {...props} />
+          )}
         />
       </div>
     );
@@ -60,7 +44,12 @@ class ShopPage extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  updateShopDataAction: (collections) => dispatch(updateShopDataAction(collections)),
+  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
+});
+
+const mapStateToProps = (state) => ({
+  isFetching: selectIsFetching(state),
+  isCollectionsLoaded: selectIsCollectionsLoaded(state),
 });
 
 /*
@@ -68,4 +57,4 @@ const mapDispatchToProps = (dispatch) => ({
   Route lagi maka dia akan mulai dari /shop bukan dari /
 */
 
-export default connect(null, mapDispatchToProps)(ShopPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);
