@@ -16,13 +16,13 @@ const WithSpinner = (WrappedComponent) => {
   };
 };
 /**
- * Penggunaanya ada di shop component
+ * Contoh Penggunaan
  * 
  * const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
    const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
-   (props) => <CollectionsOverviewWithSpinner isLoading={loading} {...props} />
-   (props) => <CollectionPageWithSpinner isLoading={loading} {...props} />
+   <CollectionsOverviewWithSpinner isLoading={loading} {...props} />
+   <CollectionPageWithSpinner isLoading={loading} {...props} />
 
  */
 
